@@ -14,18 +14,21 @@ namespace GerekeGenerics {
             var test = new MultiMap<string, MyClass>();
             var test2 = new MultiMap<string, MyClass2>();
 
-            test.Add("vehicle", v1);
-            test.Add("vehicle", v2);
-            test.Add("npc", v3);
-            test.Add("npc", v3);
-            test.Add("npc", v3);
-            test2.Add("npc", v4);
-            test2.Add("npc", v4);
-            test2.Add("npc", v4);
-            test2.Add("pc", v4);
-
-            test.Add(test2);
-
+            try {
+                test.Add("vehicle", v1);
+                test.Add("vehicle", v2);
+                test.Add("npc", v3);
+                test.Add("npc", v3);
+                test.Add("npc", v3);
+                test2.Add("npc", v4);
+                test2.Add("npc", v4);
+                test2.Add("npc", v4);
+                test2.Add("pc", v4);
+                test.Add(test2);
+            } catch (NullNotAllowedException e) {
+                Console.WriteLine(e.Message);
+            }
+            
             Console.WriteLine("Keys: {0}", String.Join(", ", test.Keys));
             Console.WriteLine("Values: {0}", String.Join(", ", test.Values));
             Console.WriteLine("Key {1}: {0}", String.Join(", ", test["npc"]), "npc");

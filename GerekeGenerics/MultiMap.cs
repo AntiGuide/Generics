@@ -19,9 +19,14 @@ namespace GerekeGenerics {
         public IEnumerable<V> Values => myDictionary.Values.SelectMany(values => values);
 
         public void Add(K key, V value) {
+            if (value == null) {
+                throw new NullNotAllowedException("Null is not allowed as an Argument for " + nameof(Add));
+            }
+
             if (!ContainsKey(key)) {
                 myDictionary.Add(key, new HashSet<V>());
             }
+
             myDictionary[key].Add(value);
         }
 
