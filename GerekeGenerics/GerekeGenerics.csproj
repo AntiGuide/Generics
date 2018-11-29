@@ -46,6 +46,7 @@
     <Compile Include="IMultiMap.cs" />
     <Compile Include="MultiMap.cs" />
     <Compile Include="MyClass.cs" />
+    <Compile Include="MyClass2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -20,9 +20,18 @@ namespace GerekeGenerics {
 
         public void Add(K key, V value) {
             if (!ContainsKey(key)) {
-                myDictionary.Add(key,new HashSet<V>());
+                myDictionary.Add(key, new HashSet<V>());
             }
             myDictionary[key].Add(value);
+        }
+
+        public void Add<K2, V2>(IMultiMap<K2, V2> arg)
+            where K2 : K
+            where V2 : V
+            {
+            foreach (var item1 in arg) {
+                Add(item1.Key, item1.Value);
+            }
         }
 
         public bool ContainsKey(K key) {
@@ -42,9 +51,8 @@ namespace GerekeGenerics {
         }
 
         public void Remove(K key, V value) {
-            if (myDictionary.ContainsKey(key)) {
-                myDictionary[key].Remove(value);
-            }
+            myDictionary.TryGetValue(key, out HashSet<V> values);
+            values.Remove(value);
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
