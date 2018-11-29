@@ -10,6 +10,10 @@ namespace GerekeGenerics {
         public delegate bool Check(V value);
         private Check myCheck;
 
+        public event MyDel<V> MyAddEvent;
+
+        public event MyDel<V> MyRemoveEvent;
+
         private Dictionary<K, HashSet<V>> myDictionary = new Dictionary<K, HashSet<V>>();
 
         public MultiMap(Check check) {
@@ -34,9 +38,12 @@ namespace GerekeGenerics {
                 return;
             }
 
+
             if (!ContainsKey(key)) {
                 myDictionary.Add(key, new HashSet<V>());
             }
+
+            MyAddEvent?.Invoke(value);
 
             myDictionary[key].Add(value);
         }
@@ -68,6 +75,7 @@ namespace GerekeGenerics {
 
         public void Remove(K key, V value) {
             myDictionary.TryGetValue(key, out HashSet<V> values);
+            MyRemoveEvent?.Invoke(value);
             values.Remove(value);
         }
 

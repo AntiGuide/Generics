@@ -11,8 +11,14 @@ namespace GerekeGenerics {
             var v2 = new MyClass("plane");
             var v3 = new MyClass("NPC2");
             var v4 = new MyClass2("NPC2");
+
             var test = new MultiMap<string, MyClass>((myClass) => { return myClass.Value != "error"; });
+            test.MyAddEvent += key => Console.WriteLine("{0} Item added!", key);
+            test.MyRemoveEvent += key => Console.WriteLine("{0} Item removed!", key);
+
             var test2 = new MultiMap<string, MyClass2>((myClass2) => { return myClass2.Value != "error2"; });
+            test2.MyAddEvent += key => Console.WriteLine("{0} Item added!", key);
+            test2.MyRemoveEvent += key => Console.WriteLine("{0} Item removed!", key);
 
             try {
                 test.Add("vehicle", v1);
@@ -44,6 +50,14 @@ namespace GerekeGenerics {
             Console.WriteLine("Contains {1}: {0}", test.ContainsKey("npc"), "npc");
 
             Console.ReadLine();
+        }
+
+        public void AddEvent<MyClass>() {
+            Console.WriteLine("An element has been added!");
+        }
+
+        public void RemoveEvent() {
+            Console.WriteLine("An element has been removed!");
         }
     }
 }
