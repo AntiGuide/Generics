@@ -7,7 +7,14 @@ using System.Threading.Tasks;
 
 namespace GerekeGenerics {
     class MultiMap<K, V> : IMultiMap<K, V> {
+        public delegate bool Check(V value);
+        private Check myCheck;
+
         private Dictionary<K, HashSet<V>> myDictionary = new Dictionary<K, HashSet<V>>();
+
+        public MultiMap(Check check) {
+            myCheck = check;
+        }
 
         public IEnumerable<V> this[K key] {
             get {
@@ -19,8 +26,12 @@ namespace GerekeGenerics {
         public IEnumerable<V> Values => myDictionary.Values.SelectMany(values => values);
 
         public void Add(K key, V value) {
-            if (value == null) {
-                throw new NullNotAllowedException("Null is not allowed as an Argument for " + nameof(Add));
+            //if (value == null) {
+            //    throw new NullNotAllowedException("Null is not allowed as an Argument for " + nameof(Add));
+            //}
+
+            if (!myCheck(value)) {
+                return;
             }
 
             if (!ContainsKey(key)) {

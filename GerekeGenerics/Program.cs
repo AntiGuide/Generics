@@ -11,8 +11,8 @@ namespace GerekeGenerics {
             var v2 = new MyClass("plane");
             var v3 = new MyClass("NPC2");
             var v4 = new MyClass2("NPC2");
-            var test = new MultiMap<string, MyClass>();
-            var test2 = new MultiMap<string, MyClass2>();
+            var test = new MultiMap<string, MyClass>((myClass) => { return myClass.Value != "error"; });
+            var test2 = new MultiMap<string, MyClass2>((myClass2) => { return myClass2.Value != "error2"; });
 
             try {
                 test.Add("vehicle", v1);
@@ -28,7 +28,7 @@ namespace GerekeGenerics {
             } catch (NullNotAllowedException e) {
                 Console.WriteLine(e.Message);
             }
-            
+
             Console.WriteLine("Keys: {0}", String.Join(", ", test.Keys));
             Console.WriteLine("Values: {0}", String.Join(", ", test.Values));
             Console.WriteLine("Key {1}: {0}", String.Join(", ", test["npc"]), "npc");
